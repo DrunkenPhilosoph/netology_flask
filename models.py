@@ -6,7 +6,6 @@ import os
 from dotenv import load_dotenv
 from atexit import register
 
-# Загрузка переменных окружения
 load_dotenv()
 POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 POSTGRES_USER = os.getenv('POSTGRES_USER')
@@ -14,16 +13,12 @@ POSTGRES_DB = os.getenv('POSTGRES_DB')
 POSTGRES_HOST = os.getenv('POSTGRES_HOST')
 POSTGRES_PORT = os.getenv('POSTGRES_PORT')
 
-# Вывод строки подключения для проверки
 print(f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}')
 
-# Создание двигателя SQLAlchemy
 engine = create_engine(f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}')
 
-# Базовый класс для декларативной ORM
 Base = declarative_base()
 
-# Сессия для работы с базой данных
 Session = sessionmaker(bind=engine)
 
 class Base(DeclarativeBase):
@@ -53,6 +48,5 @@ class AdwBase(Base):
             'owner': self.owner
         }
 
-# Создание всех таблиц
 Base.metadata.create_all(bind=engine)
 register(engine.dispose)
